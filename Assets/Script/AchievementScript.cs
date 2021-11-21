@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AchievementScript : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class AchievementScript : MonoBehaviour
     private int _stepCount;
     private int _mmeSphereDeathCount = 0;
     private int _playerDeathCount = 0;
+
+    public Text AchievementText;
     
     private void Start()
     {
@@ -32,7 +35,7 @@ public class AchievementScript : MonoBehaviour
         {
             if(!_getAllAchievement)
             {
-                Debug.Log("Bien joué ! Tu as eu tous les succés !");
+                AchievementText.text = "Bien joué ! Tu as eu tous les succés !";
                 _getAllAchievement = true;
             }
         };
@@ -56,7 +59,7 @@ public class AchievementScript : MonoBehaviour
         {
             if(!_playerRespawn)
             {
-                Debug.Log("Le Player est réapparue ici : " + vector3);
+                AchievementText.text = ("Le Player est réapparue ici : " + vector3);
                 _playerRespawn = true;
                 CheckAllAchievement();
             }
@@ -67,14 +70,14 @@ public class AchievementScript : MonoBehaviour
             _playerDeathCount++;
             if (!_playerDeath)
             {
-                Debug.Log("Le Player est mort ici : " + vector3);
+                AchievementText.text = ("Le Player est mort ici : " + vector3);
                 _playerDeath = true;
                 CheckAllAchievement();
             }
 
             if(_playerDeathCount >= 3 && !_playerDeathThree)
             {
-                Debug.Log("Stop it!");
+                AchievementText.text = ("Stop it!");
                 _playerDeathThree = true;
                 CheckAllAchievement();
             }
@@ -84,7 +87,7 @@ public class AchievementScript : MonoBehaviour
         {
             if (!_mmeSphereSpawn)
             {
-                Debug.Log("Mme Sphere vient d'apparaitre");
+                AchievementText.text = ("Mme Sphere vient d'apparaitre");
                 _mmeSphereSpawn = true;
                 CheckAllAchievement();
             }
@@ -95,14 +98,14 @@ public class AchievementScript : MonoBehaviour
             _mmeSphereDeathCount++;
             if(!_mmeSphereDeath)
             {
-                Debug.Log("Mme Sphere est morte");
+                AchievementText.text = ("Mme Sphere est morte");
                 _mmeSphereDeath = true;
                 CheckAllAchievement();
             }
 
             if (_mmeSphereDeathCount >= 3 && !_mmeSphereDeathThree)
             {
-                Debug.Log("Mme Sphere est morte ... encore");
+                AchievementText.text = ("Mme Sphere est morte ... encore");
                 _mmeSphereDeathThree = true;
                 CheckAllAchievement();
             }
@@ -114,21 +117,21 @@ public class AchievementScript : MonoBehaviour
         if(_stepForwardCount >= 3 && !_stepForwardThreeTime)
         {
             _stepForwardThreeTime = true;
-            Debug.Log("Step Forward Three Time");
+            AchievementText.text = ("Step Forward Three Time");
             CheckAllAchievement();
         }
 
         if(_stepForwardCount >= 5 && !_stepForwardFiveTime)
         {
             _stepForwardFiveTime = true;
-            Debug.Log("Step Forward Five Time");
+            AchievementText.text = ("Step Forward Five Time");
             CheckAllAchievement();
         }
 
         if(_stepCount >= 10 && !_stepTenTime)
         {
             _stepTenTime = true;
-            Debug.Log("Step Ten Time");
+            AchievementText.text = "Step Ten Time";
             CheckAllAchievement();
         }
 
@@ -143,5 +146,11 @@ public class AchievementScript : MonoBehaviour
         {
             OnGetAllAchievement.Invoke();
         }
+        Invoke(nameof(AchievementUpdate), 2);
+    }
+
+    private void AchievementUpdate()
+    {
+        AchievementText.text = "";
     }
 }
