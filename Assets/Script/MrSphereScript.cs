@@ -1,18 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MrSphereScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static bool MmeSphereExist;
+    
+    private void OnDestroy()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MmeSphereExist = false;
     }
 }

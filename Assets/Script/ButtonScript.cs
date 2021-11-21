@@ -12,7 +12,12 @@ public class ButtonScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Instantiate(MrSpherePrefab, SpawnPoint);
-        OnSpawnPrefab?.Invoke();
+        if (!MrSphereScript.MmeSphereExist)
+        {
+            Instantiate(MrSpherePrefab, SpawnPoint);
+            OnSpawnPrefab?.Invoke();
+            MrSphereScript.MmeSphereExist = true;
+        }
+        
     }
 }

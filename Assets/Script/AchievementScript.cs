@@ -12,13 +12,19 @@ public class AchievementScript : MonoBehaviour
     private bool _stepForwardFiveTime = false;
     private bool _stepTenTime = false;
     private bool _playerDeath = false;
+    private bool _playerDeathThree = false;
     private bool _playerRespawn = false;
+    private bool _mmeSphereSpawn = false;
+    private bool _mmeSphereDeath = false;
+    private bool _mmeSphereDeathThree = false;
 
-    private const int _nbAchievement = 7;
+    private int _nbAchievement = 10;
     private int _countAchievement = 0;
     
     private int _stepForwardCount;
     private int _stepCount;
+    private int _mmeSphereDeathCount = 0;
+    private int _playerDeathCount = 0;
     
     private void Start()
     {
@@ -58,22 +64,48 @@ public class AchievementScript : MonoBehaviour
         
         DeathZoneScript.OnPlayerDestroy += delegate(Vector3 vector3)
         {
+            _playerDeathCount++;
             if (!_playerDeath)
             {
                 Debug.Log("Le Player est mort ici : " + vector3);
                 _playerDeath = true;
                 CheckAllAchievement();
             }
+
+            if(_playerDeathCount >= 3 && !_playerDeathThree)
+            {
+                Debug.Log("Stop it!");
+                _playerDeathThree = true;
+                CheckAllAchievement();
+            }
         };
         
         ButtonScript.OnSpawnPrefab += delegate
         {
-            
+            if (!_mmeSphereSpawn)
+            {
+                Debug.Log("Mme Sphere vient d'apparaitre");
+                _mmeSphereSpawn = true;
+                CheckAllAchievement();
+            }
         };
 
         DeathZoneScript.OnSphereDestroy += delegate
         {
+            _mmeSphereDeathCount++;
+            if(!_mmeSphereDeath)
+            {
+                Debug.Log("Mme Sphere est morte");
+                _mmeSphereDeath = true;
+                CheckAllAchievement();
+            }
 
+            if (_mmeSphereDeathCount >= 3 && !_mmeSphereDeathThree)
+            {
+                Debug.Log("Mme Sphere est morte ... encore");
+                _mmeSphereDeathThree = true;
+                CheckAllAchievement();
+            }
         };
     }
 
@@ -107,7 +139,7 @@ public class AchievementScript : MonoBehaviour
     {
         _countAchievement++;
         
-        if(_countAchievement >= _nbAchievement)
+        if(_countAchievement >= _nbAchievement-1)
         {
             OnGetAllAchievement.Invoke();
         }
